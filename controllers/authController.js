@@ -1,13 +1,9 @@
-const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('./db'); // Ensure correct path to db.js
-
-const router = express.Router();
+const db = require('../db');
 const JWT_SECRET = 'your_jwt_secret';
 
-// Register user
-router.post('/register', async (req, res) => {
+exports.register = async (req, res) => {
     const { username, password, firstname, lastname } = req.body;
     if (!username || !password || !firstname || !lastname) {
         return res.status(400).send('All fields are required');
@@ -29,13 +25,11 @@ router.post('/register', async (req, res) => {
         console.error('Error registering user:', error);
         res.status(500).send('Server error');
     }
-});
+};
 
-// Login user
-router.post('/login', async (req, res) => {
+exports.login = async (req, res) => {
     const { username, password } = req.body;
     const ip = req.ip;
-
     if (!username || !password) {
         return res.status(400).send('Username and password required');
     }
@@ -67,6 +61,4 @@ router.post('/login', async (req, res) => {
         console.error('Error logging in:', error);
         res.status(500).send('Server error');
     }
-});
-
-module.exports = router;
+};

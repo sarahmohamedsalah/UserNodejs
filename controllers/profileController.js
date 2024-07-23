@@ -1,12 +1,8 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
-const db = require('./db');
-
-const router = express.Router();
+const db = require('../db');
 const JWT_SECRET = 'your_jwt_secret';
 
-// Get user profile
-router.get('/', (req, res) => {
+exports.getProfile = (req, res) => {
     const token = req.headers['authorization'];
     if (!token) return res.status(401).send('Access denied');
 
@@ -27,6 +23,4 @@ router.get('/', (req, res) => {
             });
         });
     });
-});
-
-module.exports = router;
+};
